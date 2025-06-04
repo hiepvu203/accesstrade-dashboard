@@ -1,0 +1,53 @@
+.background-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: -1;
+    overflow: hidden;
+    
+    // Gradient background
+    background: $gradient-primary;
+    
+    // Decorative circles
+    &::before,
+    &::after {
+        content: '';
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(100px);
+    }
+    
+    &::before {
+        width: 500px;
+        height: 500px;
+        background: rgba($primary-color, 0.15);
+        top: -100px;
+        right: -100px;
+    }
+    
+    &::after {
+        width: 400px;
+        height: 400px;
+        background: rgba($success-color, 0.15);
+        bottom: -100px;
+        left: -100px;
+    }
+}
+
+// Grid pattern
+.background-grid {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-size: 50px 50px;
+    background-image: 
+        linear-gradient(rgba($dark-color, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba($dark-color, 0.05) 1px, transparent 1px);
+    
+    opacity: 0.5;
+}

@@ -1,0 +1,60 @@
+.report-section {
+    margin: $spacing-2xl 0;
+    
+    .stats-card {
+        padding: $spacing-lg;
+        margin-bottom: $spacing-lg;
+        @include slide-in-up(0.2s);
+        
+        &.primary {
+            @include card-stats($primary-color);
+        }
+        
+        &.success {
+            @include card-stats($success-color);
+        }
+        
+        &.warning {
+            @include card-stats($warning-color);
+        }
+        
+        &.danger {
+            @include card-stats($danger-color);
+        }
+        
+        .stats-icon {
+            font-size: $font-size-2xl;
+            margin-bottom: $spacing-md;
+            opacity: 0.8;
+            transition: all $transition-normal;
+        }
+        
+        .stats-number {
+            font-size: $font-size-2xl;
+            font-weight: $font-weight-bold;
+            margin: $spacing-sm 0;
+            background: $gradient-primary;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .stats-label {
+            color: $dark-color;
+            font-weight: $font-weight-medium;
+            opacity: 0.8;
+        }
+        
+        // Hover effects
+        &:hover {
+            .stats-icon {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+            
+            .stats-number {
+                animation: pulse 0.5s ease-in-out;
+            }
+        }
+    }
+}

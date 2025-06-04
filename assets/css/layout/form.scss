@@ -1,0 +1,83 @@
+.form-section {
+    @include glass-effect(0.95);
+    padding: $spacing-2xl;
+    margin: $spacing-2xl 0;
+    border-radius: $border-radius-lg;
+    @include slide-in-up(0.4s);
+    
+    .form-title {
+        @include text-gradient($gradient-primary);
+        font-size: $font-size-xl;
+        font-weight: $font-weight-bold;
+        margin-bottom: $spacing-2xl;
+        text-align: center;
+        
+        i {
+            opacity: 0.8;
+            transition: all $transition-normal;
+        }
+        
+        &:hover i {
+            transform: rotate(180deg);
+            opacity: 1;
+        }
+    }
+    
+    .form-control {
+        @include glass-effect(0.8);
+        border: 1px solid rgba($primary-color, 0.1);
+        border-radius: $border-radius-md;
+        padding: $spacing-md;
+        transition: all $transition-normal;
+        
+        &:focus {
+            border-color: rgba($primary-color, 0.5);
+            box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
+        }
+        
+        &::placeholder {
+            color: rgba($dark-color, 0.5);
+        }
+    }
+    
+    .form-label {
+        font-weight: $font-weight-medium;
+        color: $dark-color;
+        margin-bottom: $spacing-sm;
+        
+        &::after {
+            content: "*";
+            color: $danger-color;
+            margin-left: 4px;
+            opacity: 0;
+            transition: all $transition-normal;
+        }
+        
+        &.required::after {
+            opacity: 1;
+        }
+    }
+    
+    textarea.form-control {
+        min-height: 120px;
+        resize: vertical;
+    }
+    
+    .btn-primary {
+        @include button-cta;
+        margin-top: $spacing-xl;
+        min-width: 200px;
+        
+        i {
+            transition: all $transition-normal;
+        }
+        
+        &:hover i {
+            transform: rotate(360deg);
+        }
+        
+        &:active {
+            transform: scale(0.95);
+        }
+    }
+}

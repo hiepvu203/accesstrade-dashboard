@@ -1,0 +1,33 @@
+{
+  "name": "accesstrade-dashboard",
+  "version": "1.0.0",
+  "description": "ACCESSTRADE Publisher Dashboard",
+  "main": "index.html",
+  "directories": {
+    "doc": "docs"
+  },
+  "homepage": "https://hiepvu203.github.io/accesstrade-dashboard",
+  "scripts": {
+    "dev": "browser-sync start --server --startPath pages/index.html --files '**/*.html, assets/css/**/*.css, assets/js/**/*.js'",
+    "sass": "sass --watch assets/css/main.scss:assets/css/main.css",
+    "predeploy": "sass assets/css/main.scss:assets/css/main.css --style compressed",
+    "deploy": "gh-pages -d .",
+    "start": "npm-run-all --parallel sass dev"
+  },
+  "keywords": [
+    "accesstrade",
+    "dashboard",
+    "affiliate",
+    "publisher"
+  ],
+  "author": "Vu Xuan Hiep",
+  "license": "ISC",
+  "devDependencies": {
+    "browser-sync": "^3.0.4",
+    "cpx": "^1.5.0",
+    "gh-pages": "^6.3.0",
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^6.0.1",
+    "sass": "^1.89.1"
+  }
+}

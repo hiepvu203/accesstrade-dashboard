@@ -1,0 +1,37 @@
+.hero-section {
+    @include glass-effect(0.95);
+    padding: $spacing-3xl $spacing-md;
+    margin: $spacing-2xl 0;
+    text-align: center;
+    border-radius: $border-radius-lg;
+    
+    .hero-title {
+        @include text-gradient($gradient-primary);
+        font-size: $font-size-3xl;
+        font-weight: $font-weight-bold;
+        margin-bottom: $spacing-md;
+        @include slide-in-up;
+        
+        @include mobile {
+            font-size: $font-size-2xl;
+        }
+    }
+    
+    .hero-subtitle {
+        color: $dark-color;
+        font-size: $font-size-lg;
+        margin-bottom: $spacing-2xl;
+        opacity: 0.8;
+        @include slide-in-up(0.2s);
+        
+        @include mobile {
+            font-size: $font-size-base;
+        }
+    }
+    
+    .btn-cta {
+        @include button-cta;
+        @include slide-in-up(0.4s);
+        @include float-animation;
+    }
+}

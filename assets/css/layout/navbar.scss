@@ -1,0 +1,78 @@
+.navbar-custom {
+    @include glass-effect(0.98);
+    padding: $spacing-sm 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    transition: transform $transition-normal;
+
+    &.navbar-scrolled {
+        animation: navbarSlideDown $transition-normal forwards;
+        box-shadow: $shadow-md;
+    }
+
+    &.navbar-hidden {
+        transform: translateY(-100%);
+    }
+    
+    .navbar-brand {
+        font-weight: $font-weight-bold;
+        color: $primary-color;
+        font-size: $font-size-lg;
+        
+        i {
+            color: $primary-color;
+        }
+    }
+    
+    .nav-link {
+        color: $dark-color;
+        font-weight: $font-weight-medium;
+        padding: $spacing-sm $spacing-md;
+        border-radius: $border-radius-md;
+        transition: all $transition-normal;
+        
+        i {
+            opacity: 0.7;
+        }
+        
+        &:hover {
+            color: $primary-color;
+            background: rgba($primary-color, 0.1);
+            
+            i {
+                opacity: 1;
+            }
+        }
+
+        &[href^="#"] {
+            transition: all $transition-normal;
+            
+            &:hover {
+                transform: translateY(-2px);
+            }
+        }
+    }
+    
+    .dropdown-menu {
+        @include glass-effect(0.98);
+        border-radius: $border-radius-md;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        padding: $spacing-sm 0;
+        
+        .dropdown-item {
+            padding: $spacing-sm $spacing-md;
+            
+            i {
+                opacity: 0.7;
+            }
+            
+            &:hover {
+                background: rgba($primary-color, 0.1);
+                color: $primary-color;
+                
+                i {
+                    opacity: 1;
+                }
+            }
+        }
+    }
+}
