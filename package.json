@@ -11,9 +11,9 @@
     "dev": "browser-sync start --server --startPath index.html --files '**/*.html, assets/css/**/*.css, assets/js/**/*.js'",
     "sass": "sass --watch assets/css/main.scss:assets/css/main.css",
     "build": "npm run build:clean && npm run build:css && npm run build:copy",
-    "build:clean": "rm -rf dist",
+    "build:clean": "rimraf dist",
     "build:css": "sass assets/css/main.scss:assets/css/main.css --style compressed",
-    "build:copy": "mkdir -p dist && cp -r assets dist/ && cp -r components dist/ && cp *.html dist/",
+    "build:copy": "cpx \"assets/**/*\" dist/assets && cpx \"components/**/*\" dist/components && cpx \"*.html\" dist",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
     "start": "npm-run-all --parallel sass dev"
@@ -28,6 +28,7 @@
   "license": "ISC",
   "devDependencies": {
     "browser-sync": "^3.0.4",
+    "cp": "^0.2.0",
     "cpx": "^1.5.0",
     "gh-pages": "^6.3.0",
     "mkdir": "^0.0.2",
