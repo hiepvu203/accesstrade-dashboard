@@ -8,7 +8,7 @@
   },
   "homepage": "https://hiepvu203.github.io/accesstrade-dashboard",
   "scripts": {
-    "dev": "browser-sync start --server --startPath index.html --files '**/*.html, assets/css/**/*.css, assets/js/**/*.js'",
+    "dev": "browser-sync start --server --startPath pages/register.html --files '**/*.html, assets/css/**/*.css, assets/js/**/*.js'",
     "sass": "sass --watch assets/css/main.scss:assets/css/main.css",
     "build": "npm run build:clean && npm run build:css && npm run build:copy",
     "build:clean": "rimraf dist",

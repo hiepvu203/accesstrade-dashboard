@@ -1,0 +1,40 @@
+<section class="campaign-list-section" id="campaign-list">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="section-title">
+            <i class="fas fa-bullhorn me-2"></i>Chiến dịch của bạn
+        </h2>
+        <div class="d-flex gap-3">
+            <div class="campaign-filters">
+                <select class="form-select" id="statusFilter">
+                    <option value="">Tất cả trạng thái</option>
+                    <option value="active">Đang hoạt động</option>
+                    <option value="inactive">Chưa kích hoạt</option>
+                    <option value="expired">Đã kết thúc</option>
+                </select>
+            </div>
+            <a href="index.html#campaigns" class="btn btn-primary">
+                <i class="fas fa-plus-circle me-2"></i>Tạo chiến dịch mới
+            </a>
+        </div>
+    </div>
+    
+    <div class="campaign-grid" id="campaignGrid">
+        <!-- Campaign cards will be inserted here -->
+    </div>
+
+    <!-- Loading state -->
+    <div id="loading" class="text-center d-none">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <!-- Empty state -->
+    <div id="emptyState" class="text-center d-none">
+        <i class="fas fa-clipboard-list fa-3x text-muted mb-3"></i>
+        <p class="lead">Bạn chưa có chiến dịch nào</p>
+        <a href="index.html#campaigns" class="btn btn-primary">
+            <i class="fas fa-plus-circle me-2"></i>Tạo chiến dịch mới
+        </a>
+    </div>
+</section>

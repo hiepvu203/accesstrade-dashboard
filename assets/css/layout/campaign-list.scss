@@ -1,0 +1,85 @@
+.campaign-list-section {
+    @include glass-effect(0.95);
+    padding: $spacing-2xl;
+    margin: $spacing-2xl 0;
+    border-radius: $border-radius-lg;
+
+    .section-title {
+        @include text-gradient($gradient-primary);
+        font-weight: $font-weight-bold;
+        margin: 0;
+    }
+
+    .campaign-filters {
+        .form-select {
+            @include glass-effect(0.8);
+            border: 1px solid rgba($primary-color, 0.1);
+            min-width: 200px;
+        }
+    }
+
+    .campaign-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: $spacing-lg;
+        margin-top: $spacing-xl;
+    }
+
+    .campaign-card {
+        @include glass-effect(0.9);
+        padding: $spacing-lg;
+        border-radius: $border-radius-md;
+        position: relative;
+        transition: all $transition-normal;
+
+        &:hover {
+            transform: translateY(-5px);
+            box-shadow: $shadow-lg;
+        }
+
+        .campaign-title {
+            font-size: $font-size-lg;
+            font-weight: $font-weight-bold;
+            margin: $spacing-md 0;
+            color: $dark-color;
+        }
+
+        .campaign-category,
+        .campaign-commission,
+        .campaign-dates {
+            color: $dark-color;
+            opacity: 0.8;
+            margin: $spacing-sm 0;
+            
+            i {
+                color: $primary-color;
+            }
+        }
+
+        .campaign-status {
+            position: absolute;
+            top: $spacing-md;
+            right: $spacing-md;
+        }
+
+        .campaign-actions {
+            margin-top: $spacing-lg;
+            display: flex;
+            gap: $spacing-sm;
+            justify-content: flex-end;
+        }
+
+        &.active {
+            border-left: 4px solid $success-color;
+        }
+
+        &.inactive {
+            border-left: 4px solid $warning-color;
+        }
+
+        &.expired {
+            border-left: 4px solid $danger-color;
+            opacity: 0.8;
+        }
+    }
+}

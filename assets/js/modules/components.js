@@ -1,21 +1,37 @@
 export async function loadComponent(containerId, componentPath) {
     try {
+        const container = document.getElementById(containerId);
+        if (!container) {
+            console.log(`Container ${containerId} not found, skipping...`);
+            return;
+        }
         const response = await fetch(componentPath);
         const html = await response.text();
-        document.getElementById(containerId).innerHTML = html;
+        container.innerHTML = html;
     } catch (error) {
         console.error(`Error loading component ${componentPath}:`, error);
     }
 }
 
 export async function initComponents() {
-    await Promise.all([
-        loadComponent('navbar-container', '../components/navbar.html'),
-        loadComponent('hero-container', '../components/hero.html'),
-        loadComponent('stats-container', '../components/stats-cards.html'),
-        loadComponent('form-container', '../components/campaign-form.html'),
-        loadComponent('footer', '../components/footer.html')
-    ]);
+    const isListPage = window.location.pathname.includes('list-campaign.html');
+    
+    if (isListPage) {
+        // Load only navbar and footer for list page
+        await Promise.all([
+            loadComponent('navbar-container', '../components/navbar.html'),
+            loadComponent('footer', '../components/footer.html')
+        ]);
+    } else {
+        // Load all components for main page
+        await Promise.all([
+            loadComponent('navbar-container', '../components/navbar.html'),
+            loadComponent('hero-container', '../components/hero.html'),
+            loadComponent('stats-container', '../components/stats-cards.html'),
+            loadComponent('form-container', '../components/campaign-form.html'),
+            loadComponent('footer', '../components/footer.html')
+        ]);
+    }
 }
 
 export function initNavbarEffects() {
