@@ -9,6 +9,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Initialize navbar effects
     initNavbarEffects();
+
+    initCountingAnimation();
     
     // Add logout handler
     const logoutBtn = document.getElementById('logoutBtn');
