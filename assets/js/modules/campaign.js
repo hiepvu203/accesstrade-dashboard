@@ -1,3 +1,39 @@
+import { handleLogout } from './auth.js';
+
+async function fetchWithAuth(url, options = {}) {
+    let accessToken = localStorage.getItem('accessToken') || sessionStorage.getItem('accessToken');
+    let refreshToken = localStorage.getItem('refreshToken') || sessionStorage.getItem('refreshToken');
+    if (!options.headers) options.headers = {};
+    options.headers['Authorization'] = `Bearer ${accessToken}`;
+
+    let response = await fetch(url, options);
+    if (response.status === 401 && refreshToken) {
+        // Token hết hạn, thử refresh
+        const refreshRes = await fetch('http://localhost:5000/api/auth/refresh', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ refreshToken })
+        });
+        const refreshData = await refreshRes.json();
+        if (refreshRes.ok && refreshData.accessToken) {
+            // Lưu accessToken mới
+            if (localStorage.getItem('refreshToken')) {
+                localStorage.setItem('accessToken', refreshData.accessToken);
+            } else {
+                sessionStorage.setItem('accessToken', refreshData.accessToken);
+            }
+            // Gửi lại request gốc với token mới
+            options.headers['Authorization'] = `Bearer ${refreshData.accessToken}`;
+            response = await fetch(url, options);
+        } else {
+            // Refresh token cũng hết hạn, logout
+            handleLogout();
+            throw new Error('Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại!');
+        }
+    }
+    return response;
+}
+
 const validateForm = (formData) => {
     const errors = [];
     
@@ -94,8 +130,8 @@ const showToast = (type, message) => {
 
 const getCampaigns = async () => {
     try {
-        const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-        if (!token) {
+        const accessToken = localStorage.getItem('accessToken') || sessionStorage.getItem('accessToken');
+        if (!accessToken) {
             window.location.href = 'login.html';
             return;
         }
@@ -103,12 +139,7 @@ const getCampaigns = async () => {
         showLoading(true);
         console.log('Fetching campaigns...'); // Debug log
 
-        const response = await fetch('http://localhost:5000/api/campaign/myCampaigns', {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
-
+        const response = await fetchWithAuth('http://localhost:5000/api/campaign/myCampaigns');
         const data = await response.json();
         console.log('API response:', data); // Debug log
 
@@ -193,6 +224,36 @@ const showLoading = (show) => {
         loading.classList.remove('d-none');
     } else {
         loading.classList.add('d-none');
+    }
+};
+
+window.handleDeleteCampaign = async function (id) {
+    if (!confirm('Bạn có chắc chắn muốn xóa chiến dịch này?')) return;
+    try {
+        const accessToken = localStorage.getItem('accessToken') || sessionStorage.getItem('accessToken');
+        if (!accessToken) {
+            showToast('error', 'Vui lòng đăng nhập!');
+            handleLogout();
+            return;
+        }
+        const response = await fetchWithAuth(`http://localhost:5000/api/campaign/delete/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`
+            }
+        });
+        const data = await response.json();
+        if (response.ok) {
+            showToast('success', 'Xóa chiến dịch thành công!');
+            // Reload campaigns
+            const campaigns = await getCampaigns();
+            renderCampaigns(campaigns);
+        } else {
+            showToast('error', data.message || 'Xóa thất bại!');
+        }
+    } catch (error) {
+        showToast('error', 'Lỗi kết nối server!');
+        console.error('Error:', error);
     }
 };
 

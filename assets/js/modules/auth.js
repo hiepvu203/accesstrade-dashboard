@@ -14,9 +14,11 @@ const handleLogin = async (event) => {
         const data = await res.json();
         if (res.ok) {
             if (rememberMe) {
-                localStorage.setItem('token', data.token);
+                localStorage.setItem('accessToken', data.accessToken);
+                localStorage.setItem('refreshToken', data.refreshToken);
             } else {
-                sessionStorage.setItem('token', data.token);
+                sessionStorage.setItem('accessToken', data.accessToken);
+                sessionStorage.setItem('refreshToken', data.refreshToken);
             }
             window.location.href = 'index.html';
         } else {
@@ -53,8 +55,10 @@ const handleRegister = async (event) => {
 };
 
 const handleLogout = () => {
-    localStorage.removeItem('token');
-    sessionStorage.removeItem('token');
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    sessionStorage.removeItem('accessToken');
+    sessionStorage.removeItem('refreshToken');
     window.location.href = 'login.html';
 };
 

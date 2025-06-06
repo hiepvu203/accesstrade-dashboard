@@ -2,6 +2,8 @@ const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
+const refreshTokens = [];
+
 const authController = {
     loginUser: async (req, res) => {
         try {
@@ -15,14 +17,37 @@ const authController = {
             if (!isMatch)
                 return res.status(400).json({ message: "Password is incorrect!" });
 
-            const token = jwt.sign(
+            const accessToken = jwt.sign(
                 { id: user._id, email: user.email },
                 process.env.JWT_SECRET || "secretkey",
-                { expiresIn: "1d" }
+                { expiresIn: "15m" } // access token ngắn hạn
             );
-            res.json({ token, user: { id: user._id, email: user.email, username: user.username } });
+            const refreshToken = jwt.sign(
+                { id: user._id, email: user.email },
+                process.env.JWT_REFRESH_SECRET || "refreshsecretkey",
+                { expiresIn: "7d" }
+            );
+            refreshTokens.push(refreshToken);
+            res.json({ accessToken, refreshToken, user: { id: user._id, email: user.email, username: user.username } });
         } catch (error) {
             res.status(500).json({ message: "Lỗi server!" })
+        }
+    },
+    refreshToken: (req, res) => {
+        const { refreshToken } = req.body;
+        if (!refreshToken || !refreshTokens.includes(refreshToken)) {
+            return res.status(403).json({ message: "Refresh token không hợp lệ!" });
+        }
+        try {
+            const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET || "refreshsecretkey");
+            const accessToken = jwt.sign(
+                { id: decoded.id, email: decoded.email },
+                process.env.JWT_SECRET || "secretkey",
+                { expiresIn: "15m" }
+            );
+            res.json({ accessToken });
+        } catch (err) {
+            return res.status(403).json({ message: "Refresh token hết hạn hoặc không hợp lệ!" });
         }
     },
     registerUser: async (req, res) => {

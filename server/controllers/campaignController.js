@@ -31,6 +31,20 @@ const campaignController = {
         } catch (error) {
             res.status(500).json({ message: error.message });
         }
+    },
+    deleteCampaign: async (req, res) => {
+        try {
+            const campaign = await Campaign.findOneAndDelete({
+                _id: req.params.id,
+                createdBy: req.user.id
+            });
+            if (!campaign) {
+                return res.status(404).json({ message: "Không tìm thấy chiến dịch hoặc bạn không có quyền xóa!" });
+            }
+            res.status(200).json({ message: "Xóa chiến dịch thành công!" });
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
     }
 }
 
